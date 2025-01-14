@@ -33,6 +33,8 @@ pip install -r requirements.txt
 ```
 
 В requirements.txt указаны все необходимые библиотеки для работы с сервером.
+3. Tesseract-OCR необхожимо установить отдельно. 
+Инструкции можно найти здесь: https://tesseract-ocr.github.io/tessdoc/Installation.html
 
 ## Запуск локально через Uvicorn
 Если вы хотите запустить сервер локально, выполните следующие шаги:
