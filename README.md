@@ -1,6 +1,10 @@
 # OCR сервер с FastAPI
 
-Этот проект предоставляет API для распознавания текста с изображений с использованием различных OCR-движков: **EasyOCR**, **Tesseract**, **PaddleOCR**. Вы можете выбрать нужный движок через веб-интерфейс или API.
+Этот проект предоставляет API для распознавания текста с изображений с использованием различных OCR-движков: **EasyOCR**, **Tesseract**, **PaddleOCR**. 
+Вы можете выбрать нужный движок через веб-интерфейс или API.
+Пример использования графического интерфейса:
+
+![Image alt](https://github.com/UlianaDzhumok/triple-ocr-server/raw/main/example.jpg)
 
 ## Структура проекта
 
@@ -37,7 +41,7 @@ pip install -r requirements.txt
 ```bash
 pip install uvicorn
 ```
-2. Запустите сервер:
+2. Запустите сервер из директории app:
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
