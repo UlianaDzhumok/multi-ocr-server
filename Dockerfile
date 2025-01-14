@@ -17,8 +17,7 @@ RUN apt-get update && apt-get install -y tesseract-ocr-rus
 RUN pip install --upgrade pip
 
 # Установка PyTorch, EasyOCR, FastAPI и Uvicorn
-RUN pip install --no-cache-dir torch==1.13.0 torchvision==0.14.0 torchaudio==0.13.0 \
-    && pip install --no-cache-dir easyocr fastapi uvicorn python-multipart pytesseract paddlepaddle-gpu paddleocr
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Создание рабочей директории
 WORKDIR /app
