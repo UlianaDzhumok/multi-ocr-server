@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Клиент для OCR</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Левая панель -->
+        <div class="left-panel">
+            <h1>Распознавание текста с изображений (OCR)</h1>
+
+            <!-- OCR Engine Buttons -->
+            <div class="engine-buttons">
+                <button class="engine-button">
+                    <input type="checkbox" id="easyocr" data-engine="easyocr">
+                    <label for="easyocr">EasyOCR</label>
+                </button>
+                <button class="engine-button">
+                    <input type="checkbox" id="tesseract" data-engine="tesseract">
+                    <label for="tesseract">Tesseract</label>
+                </button>
+                <button class="engine-button">
+                    <input type="checkbox" id="paddleocr" data-engine="paddleocr">
+                    <label for="paddleocr">PaddleOCR</label>
+                </button>
+            </div>
+            <span id="tesseractInfo" class="info">Важно: GPU недоступен для Tesseract.</span>
+            <br><br>
+
+            <label for="useGpu">
+                <input type="checkbox" id="useGpu"> Использовать GPU
+            </label>
+            <br><br>
+
+            <!-- Drag and Drop Zone -->
+            <div id="dropZone" class="drop-zone">
+                Перетащите изображение сюда или <span class="browse-text" onclick="document.getElementById('imageInput').click()">нажмите для выбора</span> для выбора.
+                <input type="file" id="imageInput" accept="image/*" hidden>
+            </div>
+            <div id="imagePreview" class="image-preview"></div>
+            <button id="recognizeButton" class="recognize-button" disabled onclick="uploadImage()">
+                Распознать
+            </button>
+        </div>
+
+        <!-- Правая панель -->
+        <div class="right-panel">
+            <h2>Распознанный текст:</h2>
+            <div id="outputText"></div>
+        </div>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+<div id="spinner" class="spinner hidden">
+    <div class="spinner-inner"></div>
+</div>
+</html>

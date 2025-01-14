@@ -1,0 +1,11 @@
+opencv-python-headless
+torch==1.13.0 
+torchvision==0.14.0 
+torchaudio==0.13.0 
+easyocr
+fastapi
+uvicorn
+python-multipart
+pytesseract
+paddlepaddle-gpu
+paddleocr
