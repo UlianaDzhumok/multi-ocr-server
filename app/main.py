@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, Form, Request, HTTPException
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles  # Импортируем StaticFilesf
+from fastapi.staticfiles import StaticFiles 
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from io import BytesIO
@@ -13,6 +13,7 @@ from typing import List
 from PIL import Image
 import base64
 import numpy as np
+import time
 
 app = FastAPI()
 
@@ -58,19 +59,27 @@ async def ocr(request: OCRRequest):
     # Работа с выбранными OCR движками
     if "easyocr" in request.engines:
         reader = easyocr.Reader(['ru'], gpu=request.use_gpu)
-        result = reader.readtext(image)
-        results.append({"engine": "easyocr", "text": " ".join([r[1] for r in result])})
+        start_time = time.time()
+        result = reader.readtext(np.array(image))
+        execution_time = time.time() - start_time
+        results.append({"engine": "easyocr", "execution_time": f"{execution_time:.2f}", "text": " ".join([r[1] for r in result])})
     
     if "tesseract" in request.engines:
+        start_time = time.time()
         result =  pytesseract.image_to_string(image, lang='rus')
-        results.append({"engine": "tesseract", "text": result.replace("\n", "  ")})
+        execution_time = time.time() - start_time
+        results.append({"engine": "tesseract", "execution_time": f"{execution_time:.2f}", "text": result.replace("\n", "  ")})
     
     if "paddleocr" in request.engines:
-        ocr = PaddleOCR(use_angle_cls=True, lang='en', gpu=request.use_gpu)
+        ocr = PaddleOCR(use_angle_cls=True, lang='ru', gpu=request.use_gpu)
+        start_time = time.time()
         result = ocr.ocr(np.array(image))
+        execution_time = time.time() - start_time
         text_blocks = [(item[1][0], item[1][1]) for sublist in result for item in sublist]
         chunks=[block for block in text_blocks if len(block) > 0]
-        results.append({"engine": "paddleocr", "text": " ".join(chunk[0] for chunk in chunks)})
+        results.append({"engine": "paddleocr", "execution_time": f"{execution_time:.2f}", "text": " ".join(chunk[0] for chunk in chunks)})
+    
+        print(results)
     
     return {"results": results}
     

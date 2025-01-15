@@ -107,16 +107,19 @@ async function uploadImage() {
 
         if (response.ok) {
             const data = await response.json();
-            document.getElementById("outputText").innerHTML = data.results.map(result => `
-                <div>
-                    <h3 style="margin: 0; color: #333; font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 8px;">
-                        Движок: ${result.engine}
-                    </h3>
-                    <p>
-                        ${result.text || `<b>Ошибка:</b> ${result.error}`}
-                    </p>
-                </div>
-            `).join("");
+            console.log(data); // Проверим данные
+        
+            document.getElementById("outputText").innerHTML = data.results.map(result => {
+                console.log(result.execution_time); // Проверим значение execution_time
+                return `
+                    <div>
+                        <h3 style="margin: 0; color: #333; font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 8px;">
+                            Движок: ${result.engine} -  Время выполнения: ${result.execution_time} сек
+                        </h3>
+                        <p>${result.text || `<b>Ошибка:</b> ${result.error}`}</p>
+                    </div>
+                `;
+            }).join("");
         } else {
             alert("Ошибка при распознавании текста");
         }
