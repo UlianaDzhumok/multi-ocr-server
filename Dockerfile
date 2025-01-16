@@ -13,11 +13,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrender-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Устанавливаем рабочую директорию
+# Создание рабочей директории
 WORKDIR /app
 
-# Копируем файлы проекта
-COPY . .
+# Копирование приложения
+COPY app /app
 
 # Устанавливаем зависимости Python
 RUN pip install --no-cache-dir --upgrade pip \
