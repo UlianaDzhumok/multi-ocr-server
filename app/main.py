@@ -39,7 +39,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the OCR API!"}
+   return "/index.html"
 
 @app.get("/index.html", response_class=HTMLResponse)
 async def index_page(request: Request):
