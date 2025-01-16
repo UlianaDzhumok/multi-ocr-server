@@ -2,6 +2,8 @@
 
 Этот проект предоставляет API для распознавания текста с изображений с использованием различных OCR-движков: **EasyOCR**, **Tesseract**, **PaddleOCR**. Вы можете выбрать нужный движок через веб-интерфейс или API.
 
+![Иллюстрация к проекту](https://github.com/UlianaDzhumok/triple-ocr-server/blob/main/example.jpg))
+
 ## Структура проекта
 
   ```csharp
