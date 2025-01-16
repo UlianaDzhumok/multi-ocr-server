@@ -20,7 +20,6 @@ app = FastAPI()
 class OCRRequest(BaseModel):
     file: str  # Строка Base64
     engines: list
-    use_gpu: bool
 
 # Здесь 'directory' должен указывать на папку, где находятся static файлы
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -58,7 +57,7 @@ async def ocr(request: OCRRequest):
     
     # Работа с выбранными OCR движками
     if "easyocr" in request.engines:
-        reader = easyocr.Reader(['ru'], gpu=request.use_gpu)
+        reader = easyocr.Reader(['ru'], gpu=False)
         start_time = time.time()
         result = reader.readtext(np.array(image))
         execution_time = time.time() - start_time
@@ -71,7 +70,7 @@ async def ocr(request: OCRRequest):
         results.append({"engine": "tesseract", "execution_time": f"{execution_time:.2f}", "text": result.replace("\n", "  ")})
     
     if "paddleocr" in request.engines:
-        ocr = PaddleOCR(use_angle_cls=True, lang='ru', gpu=request.use_gpu)
+        ocr = PaddleOCR(use_angle_cls=True, lang='ru', gpu=False)
         start_time = time.time()
         result = ocr.ocr(np.array(image))
         execution_time = time.time() - start_time

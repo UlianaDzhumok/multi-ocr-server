@@ -1,16 +1,3 @@
- // Обработчик для обновления сообщения о Tesseract и GPU
- function updateTesseractInfo() {
-    const tesseractInfo = document.getElementById("tesseractInfo");
-    const useGpu = document.getElementById("useGpu").checked;
-    const isTesseractSelected = document.getElementById("tesseract").checked;
-
-    if (isTesseractSelected && useGpu) {
-        tesseractInfo.style.display = "block";
-    } else {
-        tesseractInfo.style.display = "none";
-    }
-}
-
 // Добавляем обработчики событий для drag and drop
 const dropZone = document.getElementById("dropZone");
 const imageInput = document.getElementById("imageInput");
@@ -76,8 +63,6 @@ async function uploadImage() {
     if (document.getElementById("tesseract").checked) engines.push("tesseract");
     if (document.getElementById("paddleocr").checked) engines.push("paddleocr");
 
-    const useGpu = document.getElementById("useGpu").checked;
-
     // Преобразуем файл в строку Base64
     const reader = new FileReader();
     reader.onloadend = async function() {
@@ -85,8 +70,7 @@ async function uploadImage() {
         const requestData = {
             request: {
                 file: base64Image,
-                engines: engines,
-                use_gpu: useGpu
+                engines: engines
             }
         };
 
@@ -100,8 +84,7 @@ async function uploadImage() {
             },
             body: JSON.stringify({
                 file: base64Image,
-                engines: engines,
-                use_gpu: useGpu
+                engines: engines
             })
         });
 
@@ -128,10 +111,3 @@ async function uploadImage() {
 
     reader.readAsDataURL(file);  // Чтение файла как Base64
 }
-// Слушаем изменение флага использования GPU
-document.getElementById("useGpu").addEventListener("change", updateTesseractInfo);
-// Слушаем изменение флага Tesseract
-document.getElementById("tesseract").addEventListener("change", updateTesseractInfo);
-
-// Инициализируем начальное состояние
-updateTesseractInfo();
