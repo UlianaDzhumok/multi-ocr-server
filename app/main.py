@@ -1,5 +1,5 @@
 from fastapi import FastAPI, File, UploadFile, Form, Request, HTTPException
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import JSONResponse, HTMLResponse, RedirectResponse
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles 
 from fastapi.templating import Jinja2Templates
@@ -38,7 +38,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-   return "/index.html"
+   return RedirectResponse(url="/index.html")
 
 @app.get("/index.html", response_class=HTMLResponse)
 async def index_page(request: Request):
