@@ -1,12 +1,9 @@
-opencv-python-headless
-torch==1.13.0 
-torchvision==0.14.0 
-torchaudio==0.13.0 
-easyocr
 fastapi
 uvicorn
-python-multipart
+easyocr
 pytesseract
-paddlepaddle-gpu
 paddleocr
+pillow
+numpy
 jinja2
+python-multipart
