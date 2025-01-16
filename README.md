@@ -14,8 +14,9 @@
   │   ├── static/
   │   │   └── style.css       # Стиль для страницы
   │   ├── main.py             # Основной код сервера FastAPI
+  │   ├── requirements.txt    # Список зависимостей
   ├── Dockerfile              # Dockerfile для создания Docker образа
-  ├── requirements.txt        # Список зависимостей
+  ├── environment.yml         # Список зависимостей в виде готового окружения Anaconda
   └── README.md               # Этот файл
 ```
 ## Установка зависимостей
@@ -31,6 +32,18 @@ pip install -r requirements.txt
 ```
 
 В requirements.txt указаны все необходимые библиотеки для работы с сервером.
+
+Если Вы используете Anaconda можно восстановить окружение из файла:
+
+
+```bash
+conda env create -f environment.yml
+```
+или
+```bash
+conda create --name <имя_окружения> --file environment.yml
+```
+Эта команда создаст новое окружение с теми же зависимостями, что были в сохраненном файле.
 
 ## Запуск локально через Uvicorn
 Если вы хотите запустить сервер локально, выполните следующие шаги:
