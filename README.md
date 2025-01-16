@@ -90,14 +90,17 @@ curl -X POST http://localhost:8000/ocr \
   "results": [
     {
       "engine": "easyocr",
+      "execution_time":"59.95",
       "text": "Распознанный текст с изображением с использованием EasyOCR на GPU"
     },
     {
       "engine": "tesseract",
+      "execution_time": "3.16",
       "text": "Распознанный текст с изображением с использованием Tesseract"
     },
     {
       "engine": "paddleocr",
+      "execution_time": "1.00",
       "text": "Распознанный текст с изображением с использованием PaddleOCR на GPU"
     }
   ]
