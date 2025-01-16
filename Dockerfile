@@ -1,30 +1,30 @@
-FROM nvidia/cuda:11.2.2-cudnn8-runtime-ubuntu20.04
+# Используем легковесный базовый образ Python
+FROM python:3.9-slim
 
-# Установим переменную окружения для автоматической установки
-ENV DEBIAN_FRONTEND=noninteractive
+# Устанавливаем системные зависимости
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpoppler-cpp-dev \
+    tesseract-ocr \
+    libtesseract-dev \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Установка Python и pip
-RUN apt-get update && apt-get install -y \
-    python3.8 python3-pip libssl1.1 libglib2.0-0 libsm6 libxext6 libxrender-dev libtesseract-dev \
-    libgl1-mesa-glx \
-    && apt-get clean
-
-# Установка Tesseract-OCR
-RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:alex-p/tesseract-ocr
-RUN apt-get update && apt-get install -y tesseract-ocr-rus
-
-# Создание рабочей директории
+# Устанавливаем рабочую директорию
 WORKDIR /app
-# Копирование приложения
-COPY app /app
 
-# Обновление pip
-RUN pip install --upgrade pip
+# Копируем файлы проекта
+COPY . .
 
-# Установка PyTorch, EasyOCR, FastAPI и Uvicorn
-RUN pip install --no-cache-dir -r requirements.txt
+# Устанавливаем зависимости Python
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
 
-# Открытие порта для сервера
+# Открываем порт для доступа к FastAPI
 EXPOSE 8000
-# Команда для запуска FastAPI
+
+# Команда для запуска приложения
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
