@@ -14,8 +14,9 @@
   │   ├── static/
   │   │   └── style.css       # Стиль для страницы
   │   ├── main.py             # Основной код сервера FastAPI
+  │   ├── requirements.txt    # Список зависимостей
   ├── Dockerfile              # Dockerfile для создания Docker образа
-  ├── requirements.txt        # Список зависимостей
+  ├── environment.yml         # Список зависимостей в виде готового окружения Anaconda
   └── README.md               # Этот файл
 ```
 ## Установка зависимостей
