@@ -2,7 +2,7 @@ fastapi
 uvicorn
 easyocr
 pytesseract
-padddlepaddle==2.5.0
+paddlepaddle==2.5.0
 paddleocr
 pillow
 numpy
