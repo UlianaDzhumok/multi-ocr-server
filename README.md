@@ -1,4 +1,4 @@
-# OCR сервер с FastAPI
+# OCR сервер с FastAPI (CPU)
 
 Этот проект предоставляет API для распознавания текста с изображений с использованием различных OCR-движков: **EasyOCR**, **Tesseract**, **PaddleOCR**. Вы можете выбрать нужный движок через веб-интерфейс или API.
 
@@ -54,22 +54,23 @@ http://127.0.0.1:8000
 ### Создание Docker образа
 1. Сначала создайте Docker образ выполнив команду из директории где находится Dockerfile:
 ```bash
-docker build -t ocr-server-gpu .
+docker build -t ocr-server-cpu .
 ```
 2. Запустите контейнер:
 ```bash
-docker run --gpus all -p 8000:8000 ocr-server-gpu
+docker run -d-p 8000:8000 ocr-server-cpu
 ```
 Теперь сервер будет доступен по адресу http://127.0.0.1:8000.
 
 ### Запуск из уже готового Docker образа
-Если у вас уже есть готовый Docker образ, вы можете просто запустить его:
+Если у вас уже есть готовый Docker образ (например из пакетов этого проекта: [triple-ocr-server](https://github.com/UlianaDzhumok?tab=packages&repo_name=triple-ocr-server), вы можете просто запустить его:
 ```bash
-docker run --gpus all -p 8000:8000 <имя-образа>
+docker run -d -p 8000:8000 triple-ocr-server
 ```
 ## Пример работы с API
 ### Запрос на распознавание текста
-С помощью метода POST вы можете отправить изображение и выбрать OCR-движок для обработки. Поддерживаемые движки: easyocr, tesseract, paddleocr.
+С помощью метода POST вы можете отправить изображение и выбрать OCR-движок для обработки. 
+Поддерживаемые движки: easyocr, tesseract, paddleocr.
 
 Пример запроса через curl:
 ```bash
@@ -79,8 +80,7 @@ curl -X POST http://localhost:8000/ocr \
 -H "Origin: http://localhost:8000" \
 -d '{
     "file": изображение в base64,
-    "engines": ["easyocr", "tesseract", "paddleocr"],
-    "use_gpu": true
+    "engines": ["easyocr", "tesseract", "paddleocr"]
 }'
 ```
 Ответ будет в формате JSON:
@@ -91,7 +91,7 @@ curl -X POST http://localhost:8000/ocr \
     {
       "engine": "easyocr",
       "execution_time":"59.95",
-      "text": "Распознанный текст с изображением с использованием EasyOCR на GPU"
+      "text": "Распознанный текст с изображением с использованием EasyOCR"
     },
     {
       "engine": "tesseract",
@@ -101,7 +101,7 @@ curl -X POST http://localhost:8000/ocr \
     {
       "engine": "paddleocr",
       "execution_time": "1.00",
-      "text": "Распознанный текст с изображением с использованием PaddleOCR на GPU"
+      "text": "Распознанный текст с изображением с использованием PaddleOCR"
     }
   ]
 }
@@ -124,7 +124,3 @@ http://127.0.0.1:8000
 - PaddleOCR — ещё один мощный движок OCR.
 - OpenCV — для обработки изображений.
 - Pytesseract — Python интерфейс для Tesseract.
-
-## Примечания
-- Поддержка GPU возможна только для некоторых движков (например, EasyOCR и PaddleOCR). В случае с Tesseract GPU не поддерживается.
-- Для успешной работы с PaddleOCR необходимо установить специальную версию библиотеки, поддерживающую CUDA.
