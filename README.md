@@ -87,38 +87,83 @@ docker run -d -p 8000:8000 triple-ocr-server
 
 Пример запроса через curl:
 ```bash
-curl -X POST http://localhost:8000/ocr \
+curl -X POST http://localhost:8000/GetOcr \
 -H "Content-Type: application/json" \
 -H "Accept: application/json" \
--H "Origin: http://localhost:8000" \
 -d '{
-    "file": изображение в base64,
-    "engines": ["easyocr", "tesseract", "paddleocr"]
+    "file": "<изображение в base64>",
+    "engine": "easyocr"
 }'
 ```
 Ответ будет в формате JSON:
 
 ```json
 {
-  "results": [
-    {
-      "engine": "easyocr",
-      "execution_time":"59.95",
-      "text": "Распознанный текст с изображением с использованием EasyOCR"
-    },
-    {
-      "engine": "tesseract",
-      "execution_time": "3.16",
-      "text": "Распознанный текст с изображением с использованием Tesseract"
-    },
-    {
-      "engine": "paddleocr",
-      "execution_time": "1.00",
-      "text": "Распознанный текст с изображением с использованием PaddleOCR"
-    }
-  ]
+  "result": {
+    "engine": "easyocr",
+    "execution_time": "59.95",
+    "text": "Распознанный текст с изображением с использованием EasyOCR"
+  }
 }
 ```
+
+### Получение списка доступных движков
+С помощью метода GET вы можете получить список доступных OCR-движков.
+
+Пример запроса через curl:
+```bash
+curl -X GET http://localhost:8000/GetOcrList
+```
+Ответ будет в формате JSON:
+
+```json
+{
+  "available_engines": ["easyocr", "tesseract", "paddleocr"]
+}
+```
+
+### Тестирование API с использованием `test_API.py`
+Вы можете протестировать API, используя скрипт `test_API.py`. 
+
+#### Настройка:
+1. Убедитесь, что файл `test_image.jpg` находится в той же папке, что и `test_API.py`.
+2. Убедитесь, что сервер API запущен локально на `http://127.0.0.1:8000`.
+
+#### Запуск теста:
+```bash
+python test_API.py
+```
+
+Скрипт выполняет следующие действия:
+1. Отправляет запрос к `/GetOcrList` для получения списка доступных движков OCR.
+2. Тестирует каждый движок (`easyocr`, `tesseract`, `paddleocr`) с изображением `test_image.jpg`.
+
+Пример вывода:
+```
+Available OCR Engines: ['easyocr', 'tesseract', 'paddleocr']
+
+Testing OCR with easyocr engine:
+Engine: easyocr
+Execution Time: 59.95 seconds
+Recognized Text:
+Распознанный текст с изображением с использованием EasyOCR
+
+Testing OCR with tesseract engine:
+Engine: tesseract
+Execution Time: 3.16 seconds
+Recognized Text:
+Распознанный текст с изображением с использованием Tesseract
+
+Testing OCR with paddleocr engine:
+Engine: paddleocr
+Execution Time: 1.00 seconds
+Recognized Text:
+Распознанный текст с изображением с использованием PaddleOCR
+```
+
+### Примечание
+Убедитесь, что файл изображения правильно закодирован в Base64 перед отправкой в API.
+
 ### Доступ к веб-интерфейсу
 Кроме того, для удобства предоставляется веб-интерфейс для загрузки изображений и выбора OCR-движка. Перейдите по следующему адресу в браузере:
 

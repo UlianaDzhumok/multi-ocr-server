@@ -11,26 +11,20 @@
         <div class="left-panel">
             <h1>Распознавание текста с изображений (OCR)</h1>
 
-            <!-- OCR Engine Buttons -->
-            <div class="engine-buttons">
-                <button class="engine-button">
-                    <input type="checkbox" id="easyocr" data-engine="easyocr">
-                    <label for="easyocr">EasyOCR</label>
-                </button>
-                <button class="engine-button">
-                    <input type="checkbox" id="tesseract" data-engine="tesseract">
-                    <label for="tesseract">Tesseract</label>
-                </button>
-                <button class="engine-button">
-                    <input type="checkbox" id="paddleocr" data-engine="paddleocr">
-                    <label for="paddleocr">PaddleOCR</label>
-                </button>
+            <!-- Выбор OCR движка -->
+            <div class="engine-selection">
+                <label for="ocrEngine">Выберите движок OCR:</label>
+                <select id="ocrEngine">
+                    <option value="easyocr" id="easyocr" data-engine="easyocr">EasyOCR</option>
+                    <option value="tesseract" id="tesseract" data-engine="tesseract">Tesseract</option>
+                    <option value="paddleocr" id="paddleocr" data-engine="paddleocr">PaddleOCR</option>
+                </select>
             </div>
             <br><br>
 
-            <!-- Drag and Drop Zone -->
+            <!-- Drag and Drop -->
             <div id="dropZone" class="drop-zone">
-                Перетащите изображение сюда или <span class="browse-text" onclick="document.getElementById('imageInput').click()">нажмите для выбора</span> для выбора.
+                Перетащите изображение сюда или <span class="browse-text" onclick="document.getElementById('imageInput').click()">нажмите для выбора</span>
                 <input type="file" id="imageInput" accept="image/*" hidden>
             </div>
             <div id="imagePreview" class="image-preview"></div>
