@@ -2,11 +2,12 @@
 const dropZone = document.getElementById("dropZone");
 const imageInput = document.getElementById("imageInput");
 const ocrEngineSelect = document.getElementById("ocrEngine");
+const API_URL = window.API_URL || `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
 
 // Fetch available OCR engines and populate the dropdown
 async function fetchEngines() {
     try {
-        const response = await fetch("http://localhost:8000/GetOcrList");
+        const response = await fetch(`${API_URL}/GetOcrList`);
         if (response.ok) {
             const data = await response.json();
             ocrEngineSelect.innerHTML = data.available_engines.map(engine => 
@@ -95,7 +96,7 @@ async function uploadImage() {
 
         try {
             // Отправка данных на сервер
-            const response = await fetch("http://localhost:8000/GetOcr", {
+            const response = await fetch(`${API_URL}/GetOcr`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
