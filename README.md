@@ -78,11 +78,11 @@ docker run --gpus all -e USE_GPU=true -e HOST=127.0.0.1 -e PORT=9000 ocr-server
 ### Запуск из уже готового Docker образа
 Если у вас уже есть готовый Docker образ (например из пакетов этого проекта: [triple-ocr-server](https://github.com/UlianaDzhumok?tab=packages&repo_name=triple-ocr-server)), вы можете просто запустить его с использованием GPU:
 ```bash
-docker run --gpus all -e USE_GPU=true triple-ocr-server
+docker run --gpus all -e USE_GPU=true -e HOST=127.0.0.1 -e PORT=9000 triple-ocr-server
 ```
 Или только для CPU:
 ```bash
-docker run -e USE_GPU=false triple-ocr-server
+docker run -e USE_GPU=false -e HOST=0.0.0.0 -e PORT=8000 triple-ocr-server
 ```
 ## Пример работы с API
 ### Запрос на распознавание текста
