@@ -28,8 +28,9 @@ RUN python3 -m pip install --no-cache-dir -r requirements.txt
 # Устанавливаем переменную окружения LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH=/usr/local/cuda-11.2/targets/x86_64-linux/lib:$LD_LIBRARY_PATH
 
-# Открытие порта для сервера
-EXPOSE 8000
+ENV HOST=0.0.0.0
+ENV PORT=8000
 
-# Команда для запуска FastAPI
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+EXPOSE ${PORT}
+
+CMD ["sh", "-c", "uvicorn main:app --host ${HOST} --port ${PORT}"]
