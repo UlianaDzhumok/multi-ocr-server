@@ -22,7 +22,10 @@ COPY app /app
 # Обновление pip
 RUN python3 -m pip install --upgrade pip
 
-# Установка PyTorch, EasyOCR, FastAPI и Uvicorn
+# Установка PyTorch,
+RUN python3 -m pip install torch==1.13.0+cu112 torchvision==0.14.0+cu112 torchaudio==0.13.0 -f https://download.pytorch.org/whl/cuda/11.2/torch_stable.html --no-cache-dir
+
+# Установка EasyOCR, FastAPI и Uvicorn
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
 # Устанавливаем переменную окружения LD_LIBRARY_PATH
