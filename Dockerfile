@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Установка Python и pip
 RUN apt-get update && apt-get install -y \
-    python3.8 python3-pip git libssl1.1 libglib2.0-0 libsm6 libxext6 libxrender-dev libtesseract-dev \
+    python3.10 python3-pip git libssl1.1 libglib2.0-0 libsm6 libxext6 libxrender-dev libtesseract-dev \
     libgl1-mesa-glx \
     && apt-get clean
 
