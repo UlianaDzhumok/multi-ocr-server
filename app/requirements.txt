@@ -9,7 +9,7 @@ pytesseract
 paddlepaddle-gpu
 paddleocr
 requests
-git+https://github.com/VikParuchuri/surya.git
+surya-ocr
 numpy
 jinja2
 python-multipart
