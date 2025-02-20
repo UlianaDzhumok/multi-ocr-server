@@ -6,7 +6,7 @@ fastapi
 uvicorn
 python-multipart
 pytesseract
-paddlepaddle-gpu==2.4.2.post112
+paddlepaddle-gpu==2.4.0rc0
 paddleocr
 requests
 git+https://github.com/VikParuchuri/surya.git
