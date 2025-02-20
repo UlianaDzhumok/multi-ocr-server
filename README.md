@@ -144,7 +144,7 @@ python test_API.py
 
 Пример вывода:
 ```
-Available OCR Engines: ['easyocr', 'tesseract', 'paddleocr']
+Available OCR Engines: ['easyocr', 'tesseract', 'paddleocr', 'suryaocr']
 
 Testing OCR with easyocr engine:
 Engine: easyocr
@@ -163,6 +163,12 @@ Engine: paddleocr
 Execution Time: 1.00 seconds
 Recognized Text:
 Распознанный текст с изображением с использованием PaddleOCR
+
+Testing OCR with suryaocr engine:
+Engine: suryaocr
+Execution Time: 1.00 seconds
+Recognized Text:
+Распознанный текст с изображением с использованием SuryaOCR
 ```
 
 ### Примечание
