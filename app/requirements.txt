@@ -9,5 +9,5 @@ numpy
 jinja2
 python-multipart
 requests
-surya-ocr
 tensorflow
+git+https://github.com/VikParuchuri/surya.git
