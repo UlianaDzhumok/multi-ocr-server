@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu20.04
+FROM nvidia/cuda:11.3.1-cudnn8-runtime-ubuntu20.04
 
 # Установим переменную окружения для автоматической установки
 ENV DEBIAN_FRONTEND=noninteractive
