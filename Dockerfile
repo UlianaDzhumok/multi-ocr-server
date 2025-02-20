@@ -1,11 +1,11 @@
-FROM nvidia/cuda:11.2.2-cudnn8-runtime-ubuntu20.04
+FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu20.04
 
 # Установим переменную окружения для автоматической установки
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Установка Python и pip
 RUN apt-get update && apt-get install -y \
-    python3.12 python3-pip git libssl1.1 libglib2.0-0 libsm6 libxext6 libxrender-dev libtesseract-dev \
+    python3.10 python3-pip git libssl1.1 libglib2.0-0 libsm6 libxext6 libxrender-dev libtesseract-dev \
     libgl1-mesa-glx \
     && apt-get clean
 
@@ -22,6 +22,7 @@ COPY app /app
 # Обновление pip
 RUN python3 -m pip install --upgrade pip
 
+RUN python3 -m pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu121
 # Установка EasyOCR, FastAPI и Uvicorn
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 

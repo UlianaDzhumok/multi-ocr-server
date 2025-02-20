@@ -1,12 +1,12 @@
-opencv-python-headless>=4.5.4.60,<5.0.0.0
-tensorflow==2.10.1
+opencv-python-headless
+tensorflow
 pillow
 numpy
 fastapi
 uvicorn
 python-multipart
 pytesseract
-paddlepaddle-gpu==2.4.0rc0
+paddlepaddle-gpu
 paddleocr
 requests
 git+https://github.com/VikParuchuri/surya.git
