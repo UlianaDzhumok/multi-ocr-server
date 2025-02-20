@@ -1,7 +1,7 @@
 fastapi
 uvicorn
 pillow
-easyocr==1.6.2
+easyocr==1.7.2
 pytesseract
 paddlepaddle
 paddleocr
