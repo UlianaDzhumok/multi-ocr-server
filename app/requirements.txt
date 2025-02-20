@@ -10,5 +10,4 @@ jinja2
 python-multipart
 requests
 tensorflow
-git
 git+https://github.com/VikParuchuri/surya.git
