@@ -187,8 +187,9 @@ http://0.0.0.0:8000
 
 - FastAPI — для создания веб-сервера и API.
 - Uvicorn — ASGI сервер для FastAPI.
-- EasyOCR — движок OCR для распознавания текста.
-- Tesseract — классический движок OCR.
-- PaddleOCR — ещё один мощный движок OCR.
 - OpenCV — для обработки изображений.
+- [EasyOCR](https://github.com/JaidedAI/EasyOCR) — движок OCR для распознавания текста.
+- [Tesseract](https://github.com/tesseract-ocr/tesseract) — классический движок OCR.
 - Pytesseract — Python интерфейс для Tesseract.
+- [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) — ещё один мощный движок OCR.
+- [SuryaOCR](https://github.com/VikParuchuri/surya) - движок OCR для 90+ языков.
