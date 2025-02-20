@@ -1,6 +1,6 @@
-# OCR сервер с FastAPI (CPU)
+# OCR сервер с FastAPI (CPU и GPU)
 
-Этот проект предоставляет API для распознавания текста с изображений с использованием различных OCR-движков: **EasyOCR**, **Tesseract**, **PaddleOCR**. Вы можете выбрать нужный движок через веб-интерфейс или API.
+Этот проект предоставляет API для распознавания текста с изображений с использованием различных OCR-движков: **EasyOCR**, **Tesseract**, **PaddleOCR**, **SuryaOCR**. Вы можете выбрать нужный движок через веб-интерфейс или API.
 
 ![Иллюстрация к проекту](https://github.com/UlianaDzhumok/triple-ocr-server/blob/main/example.jpg)
 
@@ -122,7 +122,7 @@ curl -X GET http://localhost:8000/GetOcrList
 
 ```json
 {
-  "available_engines": ["easyocr", "tesseract", "paddleocr"]
+  "available_engines": ["easyocr", "tesseract", "paddleocr", "suryaocr"]
 }
 ```
 
