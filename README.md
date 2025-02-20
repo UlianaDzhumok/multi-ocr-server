@@ -87,7 +87,7 @@ docker run -e USE_GPU=false triple-ocr-server
 ## Пример работы с API
 ### Запрос на распознавание текста
 С помощью метода POST вы можете отправить изображение и выбрать OCR-движок для обработки. 
-Поддерживаемые движки: easyocr, tesseract, paddleocr.
+Поддерживаемые движки: easyocr, tesseract, paddleocr, suryaocr.
 
 Пример запроса через curl:
 ```bash
@@ -140,7 +140,7 @@ python test_API.py
 
 Скрипт выполняет следующие действия:
 1. Отправляет запрос к `/GetOcrList` для получения списка доступных движков OCR.
-2. Тестирует каждый движок (`easyocr`, `tesseract`, `paddleocr`) с изображением `test_image.jpg`.
+2. Тестирует каждый движок (`easyocr`, `tesseract`, `paddleocr`, `suryaocr`) с изображением `test_image.jpg`.
 
 Пример вывода:
 ```
