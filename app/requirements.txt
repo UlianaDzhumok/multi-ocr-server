@@ -1,10 +1,10 @@
 fastapi
 uvicorn
-easyocr
+pillow
+easyocr==1.7.2
 pytesseract
 paddlepaddle
 paddleocr
-pillow
 numpy
 jinja2
 python-multipart
