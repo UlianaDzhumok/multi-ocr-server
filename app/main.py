@@ -16,6 +16,8 @@ import time
 import cv2
 import torch
 import os
+from surya.recognition import RecognitionPredictor
+from surya.detection import DetectionPredictor
 
 app = FastAPI()
 
@@ -32,10 +34,10 @@ templates = Jinja2Templates(directory="templates")
 origins = ["*"]  # Для простоты можно разрешить доступ со всех источников
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # Allow all origins for testing
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
 )
 
 def preprocess_image_from_base64(base64_data):
@@ -44,8 +46,25 @@ def preprocess_image_from_base64(base64_data):
     image = Image.open(BytesIO(image_data)).convert("RGB") 
     image = np.array(image)
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    # Удаление шума
+    image = cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
+
+    # Конвертация в grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    _, thresh = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    # Усиление контуров (резкость)
+    kernel = np.array([[0, -1, 0], 
+                       [-1, 5,-1], 
+                       [0, -1, 0]])
+    gray = cv2.filter2D(gray, -1, kernel)
+
+    # Адаптивный порог
+    gray = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+    gray = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+                                 cv2.THRESH_BINARY, 11, 2)
+
+    # Окончательная бинаризация
+    _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     return thresh
 
 @app.get("/")
@@ -99,6 +118,17 @@ async def get_ocr(request: OCRRequest):
         text_blocks = [(item[1][0], item[1][1]) for sublist in ocr_result for item in sublist]
         chunks = [block for block in text_blocks if len(block) > 0]
         result = {"engine": "paddleocr", "execution_time": f"{execution_time:.2f}", "text": "\n".join(chunk[0] for chunk in chunks)}
+        
+    elif request.engine == "suryaocr":
+        langs = ["ru"]
+        recognition_predictor = RecognitionPredictor()
+        detection_predictor = DetectionPredictor()
+        image_pil = Image.fromarray(image)
+        start_time = time.time()
+        predictions = recognition_predictor([image_pil], [langs], detection_predictor)
+        execution_time = time.time() - start_time
+        text_blocks = [text_line.text for text_line in predictions[0].text_lines]
+        result = {"engine": "suryaocr", "execution_time": f"{execution_time:.2f}", "text": "\n".join(chunk for chunk in text_blocks)}
 
     else:
         raise HTTPException(status_code=400, detail=f"Неподдерживаемый движок OCR: {request.engine}")
@@ -107,7 +137,7 @@ async def get_ocr(request: OCRRequest):
 
 @app.get("/GetOcrList")
 async def get_ocr_list():
-    engines = ["easyocr", "tesseract", "paddleocr"]
+    engines = ["easyocr", "tesseract", "paddleocr", "suryaocr"]
     return {"available_engines": engines}
 
 if __name__ == '__main__':

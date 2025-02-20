@@ -3,7 +3,7 @@ import base64
 import os
 
 # Base URL of the API
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "http://0.0.0.0:8000"
 
 # Ensure the path is relative to the script location
 IMAGE_PATH = os.path.join(os.path.dirname(__file__), "test_image.jpg")
@@ -48,6 +48,6 @@ if __name__ == "__main__":
     test_get_ocr_list()
 
     # Test the OCR endpoint for each engine
-    for engine in ["easyocr", "tesseract", "paddleocr"]:
+    for engine in ["easyocr", "tesseract", "paddleocr", "suryaocr"]:
         print(f"\nTesting OCR with {engine} engine:")
         test_get_ocr(engine)
