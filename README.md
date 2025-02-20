@@ -1,6 +1,6 @@
-# OCR сервер с FastAPI (CPU)
+# OCR сервер с FastAPI (CPU и GPU)
 
-Этот проект предоставляет API для распознавания текста с изображений с использованием различных OCR-движков: **EasyOCR**, **Tesseract**, **PaddleOCR**. Вы можете выбрать нужный движок через веб-интерфейс или API.
+Этот проект предоставляет API для распознавания текста с изображений с использованием различных OCR-движков: **EasyOCR**, **Tesseract**, **PaddleOCR**, **SuryaOCR**. Вы можете выбрать нужный движок через веб-интерфейс или API.
 
 ![Иллюстрация к проекту](https://github.com/UlianaDzhumok/triple-ocr-server/blob/main/example.jpg)
 
@@ -78,16 +78,16 @@ docker run --gpus all -e USE_GPU=true -e HOST=127.0.0.1 -e PORT=9000 ocr-server
 ### Запуск из уже готового Docker образа
 Если у вас уже есть готовый Docker образ (например из пакетов этого проекта: [triple-ocr-server](https://github.com/UlianaDzhumok?tab=packages&repo_name=triple-ocr-server)), вы можете просто запустить его с использованием GPU:
 ```bash
-docker run --gpus all -e USE_GPU=true -e HOST=127.0.0.1 -e PORT=9000 triple-ocr-server
+docker run --gpus all -e USE_GPU=true triple-ocr-server
 ```
 Или только для CPU:
 ```bash
-docker run -e USE_GPU=false -e HOST=0.0.0.0 -e PORT=8000 triple-ocr-server
+docker run -e USE_GPU=false triple-ocr-server
 ```
 ## Пример работы с API
 ### Запрос на распознавание текста
 С помощью метода POST вы можете отправить изображение и выбрать OCR-движок для обработки. 
-Поддерживаемые движки: easyocr, tesseract, paddleocr.
+Поддерживаемые движки: easyocr, tesseract, paddleocr, suryaocr.
 
 Пример запроса через curl:
 ```bash
@@ -122,7 +122,7 @@ curl -X GET http://localhost:8000/GetOcrList
 
 ```json
 {
-  "available_engines": ["easyocr", "tesseract", "paddleocr"]
+  "available_engines": ["easyocr", "tesseract", "paddleocr", "suryaocr"]
 }
 ```
 
@@ -140,11 +140,11 @@ python test_API.py
 
 Скрипт выполняет следующие действия:
 1. Отправляет запрос к `/GetOcrList` для получения списка доступных движков OCR.
-2. Тестирует каждый движок (`easyocr`, `tesseract`, `paddleocr`) с изображением `test_image.jpg`.
+2. Тестирует каждый движок (`easyocr`, `tesseract`, `paddleocr`, `suryaocr`) с изображением `test_image.jpg`.
 
 Пример вывода:
 ```
-Available OCR Engines: ['easyocr', 'tesseract', 'paddleocr']
+Available OCR Engines: ['easyocr', 'tesseract', 'paddleocr', 'suryaocr']
 
 Testing OCR with easyocr engine:
 Engine: easyocr
@@ -163,6 +163,12 @@ Engine: paddleocr
 Execution Time: 1.00 seconds
 Recognized Text:
 Распознанный текст с изображением с использованием PaddleOCR
+
+Testing OCR with suryaocr engine:
+Engine: suryaocr
+Execution Time: 1.00 seconds
+Recognized Text:
+Распознанный текст с изображением с использованием SuryaOCR
 ```
 
 ### Примечание
