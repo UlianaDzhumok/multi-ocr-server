@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 # Установка Tesseract-OCR
-RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:alex-p/tesseract-ocr
+RUN apt-get update && apt-get install -y tesseract-ocr libtesseract-dev
 RUN apt-get update && apt-get install -y tesseract-ocr-rus
 
 # Создание рабочей директории
