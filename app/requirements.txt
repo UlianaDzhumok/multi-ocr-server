@@ -6,6 +6,7 @@ fastapi
 uvicorn
 python-multipart
 pytesseract
+easyocr
 paddlepaddle-gpu
 paddleocr
 requests

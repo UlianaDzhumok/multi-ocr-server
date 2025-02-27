@@ -23,8 +23,8 @@
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/UlianaDzhumok/triple-ocr-server
-cd triple-ocr-server
+git clone https://github.com/UlianaDzhumok/multi-ocr-server
+cd multi-ocr-server
 ```
 2. Установите зависимости:
 ```bash
@@ -71,18 +71,18 @@ docker build -t ocr-server .
 ```
 2. Запустите контейнер (с использованием GPU с указанием HOST и PORT для развертки):
 ```bash
-docker run --gpus all -e USE_GPU=true -e HOST=127.0.0.1 -e PORT=9000 ocr-server
+docker run --gpus all -e USE_GPU=true -e HOST=127.0.0.1 -e PORT=9000 -p 9000:9000 ocr-server
 ```
 Теперь сервер будет доступен по адресу http://127.0.0.1:9000.
 
 ### Запуск из уже готового Docker образа
-Если у вас уже есть готовый Docker образ (например из пакетов этого проекта: [triple-ocr-server](https://github.com/UlianaDzhumok?tab=packages&repo_name=triple-ocr-server)), вы можете просто запустить его с использованием GPU:
+Если у вас уже есть готовый Docker образ (например из пакетов этого проекта: [multi-ocr-server](https://github.com/UlianaDzhumok?tab=packages&repo_name=multi-ocr-server)), вы можете просто запустить его с использованием GPU:
 ```bash
-docker run --gpus all -e USE_GPU=true triple-ocr-server
+docker run --gpus all -e USE_GPU=true multi-ocr-server p 8000:8000
 ```
 Или только для CPU:
 ```bash
-docker run -e USE_GPU=false triple-ocr-server
+docker run -e USE_GPU=false multi-ocr-server -p 8000:8000
 ```
 ## Пример работы с API
 ### Запрос на распознавание текста
@@ -187,8 +187,9 @@ http://0.0.0.0:8000
 
 - FastAPI — для создания веб-сервера и API.
 - Uvicorn — ASGI сервер для FastAPI.
-- EasyOCR — движок OCR для распознавания текста.
-- Tesseract — классический движок OCR.
-- PaddleOCR — ещё один мощный движок OCR.
 - OpenCV — для обработки изображений.
+- [EasyOCR](https://github.com/JaidedAI/EasyOCR) — движок OCR для распознавания текста.
+- [Tesseract](https://github.com/tesseract-ocr/tesseract) — классический движок OCR.
 - Pytesseract — Python интерфейс для Tesseract.
+- [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) — ещё один мощный движок OCR.
+- [SuryaOCR](https://github.com/VikParuchuri/surya) - движок OCR для 90+ языков.
