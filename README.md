@@ -95,7 +95,7 @@ curl -X POST http://localhost:8000/GetOcr \
 -H "Content-Type: application/json" \
 -H "Accept: application/json" \
 -d '{
-    "file": "<изображение в base64>",
+    "file": "path/to/image.jpg",
     "engine": "easyocr"
 }'
 ```
