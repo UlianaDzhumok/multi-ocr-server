@@ -7,7 +7,7 @@ const API_URL = window.API_URL || `${window.location.protocol}//${window.locatio
 // Fetch available OCR engines and populate the dropdown
 async function fetchEngines() {
     try {
-        const response = await fetch(`${API_URL}/GetOcrList`);
+        const response = await fetch(`${API_URL}/GetOcrList?nocache=${Date.now()}`);
         if (response.ok) {
             const data = await response.json();
             ocrEngineSelect.innerHTML = data.available_engines.map(engine => 
@@ -54,7 +54,7 @@ function previewImage(file) {
     const reader = new FileReader();
     reader.onload = function(e) {
         const imagePreview = document.getElementById("imagePreview");
-        imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview" />`;
+        imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; height: auto;" />`;
     };
     reader.readAsDataURL(file);
 }
@@ -69,7 +69,7 @@ function hideSpinner() {
     document.getElementById('spinner').classList.add('hidden');
 }
 
-// Отправка изображения на сервер
+// Отправка изображения на сервер как FormData
 async function uploadImage() {
     const fileInput = document.getElementById("imageInput");
     const file = fileInput.files[0];  // Получаем файл из input
@@ -87,48 +87,39 @@ async function uploadImage() {
         return;
     }
 
-    // Преобразуем файл в строку Base64
-    const reader = new FileReader();
-    reader.onloadend = async function() {
-        const base64Image = reader.result.split(',')[1];  // Получаем только Base64 часть
+    showSpinner(); // Показываем спиннер
 
-        showSpinner(); // Показываем спиннер
+    try {
+        // Используем FormData для отправки файла
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("engine", selectedEngine);
 
-        try {
-            // Отправка данных на сервер
-            const response = await fetch(`${API_URL}/GetOcr`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    file: base64Image,
-                    engine: selectedEngine
-                })
-            });
+        // Отправляем запрос с `nocache`, чтобы избежать кеширования
+        const response = await fetch(`${API_URL}/GetOcr?nocache=${Date.now()}`, {
+            method: "POST",
+            body: formData
+        });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data); // Проверим данные
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data); // Проверим данные
 
-                const result = data.result;
-                document.getElementById("outputText").innerHTML = `
-                    <div>
-                        <h3 style="margin: 0; color: #333; font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 8px;">
-                            Движок: ${result.engine} - Время выполнения: ${result.execution_time} сек
-                        </h3>
-                        <p>${result.text || `<b>Ошибка:</b> ${result.error}`}</p>
-                    </div>
-                `;
-            } else {
-                alert("Ошибка при распознавании текста");
-            }
-        } catch (error) {
-            console.error("Ошибка при отправке изображения:", error);
-        } finally {
-            hideSpinner();
+            const result = data.result;
+            document.getElementById("outputText").innerHTML = `
+                <div>
+                    <h3 style="margin: 0; color: #333; font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 8px;">
+                        Движок: ${result.engine} - Время выполнения: ${result.execution_time} сек
+                    </h3>
+                    <p>${result.text || `<b>Ошибка:</b> ${result.error}`}</p>
+                </div>
+            `;
+        } else {
+            alert("Ошибка при распознавании текста");
         }
-    };
-
-    reader.readAsDataURL(file);  // Чтение файла как Base64
+    } catch (error) {
+        console.error("Ошибка при отправке изображения:", error);
+    } finally {
+        hideSpinner();
+    }
 }
