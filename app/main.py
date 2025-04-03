@@ -41,6 +41,13 @@ USE_GPU = os.getenv("USE_GPU", "false").lower() == "true"
 CUDA_AVAILABLE = torch.cuda.is_available()
 USE_GPU_FINAL = USE_GPU and CUDA_AVAILABLE
 
+reader = easyocr.Reader(['ru'], gpu=USE_GPU_FINAL, detector='DB', recognizer='Transformer')
+ocr = PaddleOCR(use_angle_cls=True, 
+                lang='ru',
+                gpu=USE_GPU_FINAL, 
+                ocr_version='PP-OCRv3',
+                drop_score=0.3)
+
 # Функция загрузки изображения без обработки
 def load_image_from_upload(file: UploadFile):
     """Читает изображение из загруженного файла без изменений."""
@@ -71,7 +78,6 @@ async def get_ocr(file: UploadFile = File(...), engine: str = Form(...)):
         result = {}
 
         if engine == "easyocr":
-            reader = easyocr.Reader(['ru'], gpu=USE_GPU_FINAL, detector='DB', recognizer='Transformer')
             start_time = time.time()
             ocr_result = reader.readtext(image)
             execution_time = time.time() - start_time
@@ -92,7 +98,6 @@ async def get_ocr(file: UploadFile = File(...), engine: str = Form(...)):
             }
 
         elif engine == "paddleocr":
-            ocr = PaddleOCR(use_angle_cls=True, lang='ru', gpu=USE_GPU_FINAL, drop_score=0.3)
             start_time = time.time()
             ocr_result = ocr.ocr(image)
             execution_time = time.time() - start_time
