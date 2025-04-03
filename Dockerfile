@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Установка Tesseract-OCR и вспомигательных библиотек
 RUN apt-get update && apt-get install -y \
-    git libssl3 libglib2.0-0 libsm6 libxext6 libxrender-dev \
+    python3.10 python3-pip git libssl3 libglib2.0-0 libsm6 libxext6 libxrender-dev \
     libtesseract-dev libgl1-mesa-glx \
     tesseract-ocr tesseract-ocr-rus \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
