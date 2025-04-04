@@ -47,6 +47,8 @@ ocr = PaddleOCR(use_angle_cls=True,
                 gpu=USE_GPU_FINAL, 
                 ocr_version='PP-OCRv3',
                 drop_score=0.3)
+recognition_predictor = RecognitionPredictor()
+detection_predictor = DetectionPredictor()
 
 # Функция загрузки изображения без обработки
 def load_image_from_upload(file: UploadFile):
@@ -111,8 +113,6 @@ async def get_ocr(file: UploadFile = File(...), engine: str = Form(...)):
 
         elif engine == "suryaocr":
             langs = ["ru"]
-            recognition_predictor = RecognitionPredictor()
-            detection_predictor = DetectionPredictor()
             image_pil = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
             start_time = time.time()
             predictions = recognition_predictor([image_pil], [langs], detection_predictor)
